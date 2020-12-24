@@ -1,23 +1,28 @@
 const deltaE = (colour1, colour2) => {
     let labA = rgb2lab(colour1)
     let labB = rgb2lab(colour2)
+
     let deltaL = labA[0] - labB[0]
     let deltaA = labA[1] - labB[1]
-    let deltaB = labA[2] 
-    - labB[2]
+    let deltaB = labA[2] - labB[2]
+
     let c1 = Math.sqrt(labA[1] * labA[1] + labA[2] * labA[2])
     let c2 = Math.sqrt(labB[1] * labB[1] + labB[2] * labB[2])
+
     let deltaC = c1 - c2
     let deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC
     deltaH = deltaH < 0 ? 0 : Math.sqrt(deltaH)
+
     let sc = 1.0 + 0.045 * c1
     let sh = 1.0 + 0.015 * c1
+
     let deltaLKlsl = deltaL / (1.0)
     let deltaCkcsc = deltaC / (sc)
     let deltaHkhsh = deltaH / (sh)
+    
     let i = deltaLKlsl * deltaLKlsl + deltaCkcsc * deltaCkcsc + deltaHkhsh * deltaHkhsh
     let result = i < 0 ? 0 : Math.sqrt(i)
-    console.log(result)
+    return result
 }
 
 const rgb2lab = (colour) => {
@@ -34,7 +39,4 @@ const rgb2lab = (colour) => {
     return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
 }
 
-deltaE([128, 0, 255], [128, 0, 255]) 
-deltaE([128, 0, 255], [128, 0, 230]) 
-deltaE([128, 0, 255], [128, 0, 230]) 
-deltaE([0, 0, 255], [255, 0, 0]) 
+module.exports = deltaE
