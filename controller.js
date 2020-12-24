@@ -1,6 +1,13 @@
 const referenceColoursList = require('./referenceColours')
 const deltaE = require('./deltaE')
 
+const runProgram = (subjectColour) => {
+    let colourDeltasAll = compareColours(subjectColour)
+    let closestMatch = findClosestMatch(colourDeltasAll)
+    closestMatch.perception = getSignificance(closestMatch.delta)
+    return closestMatch
+}
+
 const compareColours = (subjectColour) => {
     let colourDeltas = []
     referenceColoursList.map(referenceColour => {
@@ -8,7 +15,8 @@ const compareColours = (subjectColour) => {
         colourDeltas.push({
             referenceColour: referenceColour,
             subjectColour: subjectColour,
-            delta: colourDelta
+            delta: colourDelta,
+            perception: null
         })
     })
     return colourDeltas
@@ -24,11 +32,19 @@ const findClosestMatch = (colourDeltas) => {
     return holderColour
 }
 
-const runProgram = (subjectColour) => {
-    let colourDeltasAll = compareColours(subjectColour)
-    let closestMatch = findClosestMatch(colourDeltasAll)
-    console.log(closestMatch)
-    return closestMatch
+const getSignificance = (matchDelta) => {
+    if (matchDelta <=1) {
+        return 'Not perceptible by human eyes'
+    } else if (matchDelta > 1 && matchDelta <= 2) {
+        return 'Perceptible through close observation'
+    } else if (matchDelta > 2 && matchDelta <= 10) {
+        return 'Perceptible at a glance'
+    } else if (matchDelta > 10 && matchDelta <= 49) {
+        return 'Colors are more similar than opposite'
+    } else if (matchDelta > 49 && matchDelta <= 100) {
+        return 'Colours are not similar'
+    } else if (matchDelta === 100) {
+        return 'Colors are exact opposite'
+    } 
+    return mColour
 }
-
-runProgram([71, 56, 33])
