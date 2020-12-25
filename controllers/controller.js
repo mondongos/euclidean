@@ -1,10 +1,11 @@
-const referenceColoursList = require('./referenceColours')
-const deltaE = require('./deltaE')
+const referenceColoursList = require('../models/referenceColours')
+const deltaE = require('../models/deltaE')
 
 const runProgram = (subjectColour) => {
     let colourDeltasAll = compareColours(subjectColour)
     let closestMatch = findClosestMatch(colourDeltasAll)
     closestMatch.perception = getSignificance(closestMatch.delta)
+    console.log(closestMatch)
     return closestMatch
 }
 
@@ -46,5 +47,6 @@ const getSignificance = (matchDelta) => {
     } else if (matchDelta === 100) {
         return 'Colors are exact opposite'
     } 
-    return mColour
 }
+
+module.exports = runProgram
