@@ -40,7 +40,7 @@ export default class MainPage extends React.Component {
             rgb: [this.state.red, this.state.green, this.state.blue]
         }
         try {
-            let colourData = await axios.post('http://localhost:5000/arses/sendRGB', request)
+            let colourData = await axios.post('/arses/sendRGB', request)
             console.log(colourData.data)
             this.setState({
                 delta: colourData.data.delta,
