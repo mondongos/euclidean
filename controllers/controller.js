@@ -5,7 +5,6 @@ const runProgram = (subjectColour) => {
     let colourDeltasAll = compareColours(subjectColour)
     let closestMatch = findClosestMatch(colourDeltasAll)
     closestMatch.perception = getSignificance(closestMatch.delta)
-    console.log(closestMatch)
     return closestMatch
 }
 
