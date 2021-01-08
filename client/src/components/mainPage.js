@@ -85,12 +85,19 @@ export default class MainPage extends React.Component {
                             </Col>
                             <Col md={3}></Col>
                         </Row>
+                        <br></br>
                         <Button color="success" onClick={this.handleSubmit}>Check colour</Button>
                     </Form>
                     <br></br>
-                    <div>
-                        {this.state.perception}
-                    </div>
+                    <Container>
+                        Subject Colour: {this.state.subColour ? this.state.subColour.toString() : null}
+                        <br></br>
+                        Closest Ref Colour: {this.state.refColour ? this.state.refColour.toString() : null}
+                        <br></br>
+                        Delta: {this.state.delta ? this.state.delta.toFixed(4) : null}
+                        <br></br>
+                        Intepretation of delta: {this.state.perception ? this.state.perception : null}
+                    </Container>
                 </Container>
             </div>
         )
