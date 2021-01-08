@@ -8,7 +8,10 @@ import {
     Label,
     Input,
     Container,
-    Jumbotron
+    Jumbotron,
+    Card,
+    CardTitle,
+    CardText
 } from 'reactstrap';
 
 const axios = require('axios')
@@ -24,30 +27,23 @@ export default class MainPage extends React.Component {
             refColour: null,
             subColour: null,
             delta: null,
-            perception: null,
+            perception: null
         }
     }
 
     handleChange = e => {
         const {name, value} = e.target
-        this.setState({
-            [name]: value
-        })
+        this.setState({[name]: value})
     }
 
-    handleSubmit = async (e) => {
+    handleSubmit = async(e) => {
         let request = {
             rgb: [this.state.red, this.state.green, this.state.blue]
         }
         try {
             let colourData = await axios.post('/arses/sendRGB', request)
             console.log(colourData.data)
-            this.setState({
-                delta: colourData.data.delta,
-                refColour: colourData.data.referenceColour,
-                subColour: colourData.data.subjectColour,
-                perception: colourData.data.perception
-            })
+            this.setState({delta: colourData.data.delta, refColour: colourData.data.referenceColour, subColour: colourData.data.subjectColour, perception: colourData.data.perception})
             console.log(this.state)
         } catch (e) {
             console.log(e)
@@ -90,14 +86,53 @@ export default class MainPage extends React.Component {
                     </Form>
                     <br></br>
                     <Container>
-                        Subject Colour: {this.state.subColour ? this.state.subColour.toString() : null}
-                        <br></br>
-                        Closest Ref Colour: {this.state.refColour ? this.state.refColour.toString() : null}
-                        <br></br>
-                        Delta: {this.state.delta ? this.state.delta.toFixed(4) : null}
-                        <br></br>
-                        Intepretation of delta: {this.state.perception ? this.state.perception : null}
+                        <Row>
+                            <Col>
+                            <Card body inverse style={{ backgroundColor: `rgb(${this.state.subColour ? this.state.subColour.toString() : null})`}}>
+                                <CardTitle>Subject Colour</CardTitle>
+                                <CardText>{this.state.subColour ? this.state.subColour.toString() : null}</CardText>
+                            </Card>
+                            </Col>
+                            <Col>
+                            <Card body style={{margin: '5px'}}>
+                                <CardText>{this.state.delta ? "Delta: " : null}{this.state.delta ? this.state.delta.toFixed(4) : null}</CardText>
+                                <CardText>{this.state.perception ? this.state.perception.toString() : null}</CardText>
+                            </Card>
+                            </Col>
+                            <Col>
+                            <Card body inverse style={{ backgroundColor: `rgb(${this.state.refColour ? this.state.refColour.toString() : null})`}}>
+                                <CardTitle>Reference Colour</CardTitle>
+                                <CardText>{this.state.refColour ? this.state.refColour.toString() : null}</CardText>
+                            </Card>
+                            </Col>
+                        </Row>
                     </Container>
+                    {/* <Container>
+                        Subject Colour: {this.state.subColour
+                            ? this
+                                .state
+                                .subColour
+                                .toString()
+                            : null}
+                        <br></br>
+                        Closest Ref Colour: {this.state.refColour
+                            ? this
+                                .state
+                                .refColour
+                                .toString()
+                            : null}
+                        <br></br>
+                        Delta: {this.state.delta
+                            ? this
+                                .state
+                                .delta
+                                .toFixed(4)
+                            : null}
+                        <br></br>
+                        Intepretation of delta: {this.state.perception
+                            ? this.state.perception
+                            : null}
+                    </Container> */}
                 </Container>
             </div>
         )
